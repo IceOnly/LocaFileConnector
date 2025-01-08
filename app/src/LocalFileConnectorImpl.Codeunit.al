@@ -35,7 +35,7 @@ codeunit 4820 "Local File Connector Impl." implements "External File Storage Con
     begin
         LocalFileAccount.Get(AccountId);
         FilePaginationData.SetEndOfListing(true);
-        SetLocalFileFilters(AccountId, Path, FilePaginationData, LocalFile, true);
+        SetLocalFileFilters(AccountId, Path, LocalFile, true);
         if not LocalFile.FindSet() then
             exit;
 
@@ -43,7 +43,7 @@ codeunit 4820 "Local File Connector Impl." implements "External File Storage Con
             FileAccountContent.Init();
             FileAccountContent.Name := LocalFile.Name;
             FileAccountContent.Type := FileAccountContent.Type::"File";
-            FileAccountContent."Parent Directory" := GetParentPath(LocalFileAccount, LocalFile.Path);
+            FileAccountContent."Parent Directory" := CopyStr(GetParentPath(LocalFileAccount, LocalFile.Path), 1, MaxStrLen(FileAccountContent."Parent Directory"));
             FileAccountContent.Insert();
         until LocalFile.Next() = 0;
     end;
@@ -114,7 +114,6 @@ codeunit 4820 "Local File Connector Impl." implements "External File Storage Con
     /// <param name="TargetPath">The target file path.</param>
     procedure MoveFile(AccountId: Guid; SourcePath: Text; TargetPath: Text)
     var
-        LocalFile: File;
         LocalSourcePath, LocalTargetPath : Text;
     begin
         LocalSourcePath := GetLocalPath(AccountId, SourcePath);
@@ -163,11 +162,10 @@ codeunit 4820 "Local File Connector Impl." implements "External File Storage Con
     var
         LocalFileAccount: Record "Local File Account";
         LocalFile: Record File;
-        LocalPath: Text;
     begin
         FilePaginationData.SetEndOfListing(true);
         LocalFileAccount.Get(AccountId);
-        SetLocalFileFilters(AccountId, Path, FilePaginationData, LocalFile, false);
+        SetLocalFileFilters(AccountId, Path, LocalFile, false);
         if not LocalFile.FindSet() then
             exit;
 
@@ -175,7 +173,7 @@ codeunit 4820 "Local File Connector Impl." implements "External File Storage Con
             FileAccountContent.Init();
             FileAccountContent.Name := LocalFile.Name;
             FileAccountContent.Type := FileAccountContent.Type::Directory;
-            FileAccountContent."Parent Directory" := GetParentPath(LocalFileAccount, LocalFile.Path);
+            FileAccountContent."Parent Directory" := CopyStr(GetParentPath(LocalFileAccount, LocalFile.Path), 1, MaxStrLen(FileAccountContent."Parent Directory"));
             if not (LocalFile.Name in ['..', '.']) then
                 FileAccountContent.Insert();
         until LocalFile.Next() = 0;
@@ -343,33 +341,7 @@ codeunit 4820 "Local File Connector Impl." implements "External File Storage Con
             Path += PathSeparator();
     end;
 
-    local procedure CombinePath(Path: Text; ChildPath: Text): Text
-    begin
-        if Path = '' then
-            exit(ChildPath);
-
-        if not Path.EndsWith(PathSeparator()) then
-            Path += PathSeparator();
-
-        exit(Path + ChildPath);
-    end;
-
-    local procedure InitOptionalParameters(var Path: Text; var FilePaginationData: Codeunit "File Pagination Data"; var AFSOptionalParameters: Codeunit "AFS Optional Parameters")
-    begin
-        AFSOptionalParameters.Prefix(Path);
-        AFSOptionalParameters.MaxResults(500);
-        AFSOptionalParameters.Marker(FilePaginationData.GetMarker());
-    end;
-
-    local procedure ValidateListingResponse(var FilePaginationData: Codeunit "File Pagination Data"; var AFSOperationResponse: Codeunit "AFS Operation Response")
-    begin
-        if not AFSOperationResponse.IsSuccessful() then
-            Error(AFSOperationResponse.GetError());
-
-        FilePaginationData.SetEndOfListing(true);
-    end;
-
-    local procedure SetLocalFileFilters(var AccountId: Guid; var Path: Text; var FilePaginationData: Codeunit "File Pagination Data"; var LocalFile: Record File; Files: Boolean)
+    local procedure SetLocalFileFilters(var AccountId: Guid; var Path: Text; var LocalFile: Record File; Files: Boolean)
     var
         LocalPath: Text;
     begin
@@ -385,7 +357,7 @@ codeunit 4820 "Local File Connector Impl." implements "External File Storage Con
         exit('/');
     end;
 
-    local procedure GetLocalPath(AccountId: Guid; var Path: Text) LocalPath: Text
+    local procedure GetLocalPath(AccountId: Guid; Path: Text) LocalPath: Text
     var
         LocalFileAccount: Record "Local File Account";
     begin

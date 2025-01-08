@@ -5,8 +5,6 @@
 
 namespace System.ExternalFileStorage;
 
-using System.Device;
-
 /// <summary>
 /// Holds the information for all file accounts that are registered via the File Share connector
 /// </summary>

@@ -18,6 +18,7 @@ page 4820 "Local File Account"
     Extensible = false;
     InsertAllowed = false;
     DataCaptionExpression = Rec.Name;
+    UsageCategory = None;
 
     layout
     {
@@ -41,16 +42,8 @@ page 4820 "Local File Account"
         }
     }
 
-    var
-        SecretEditable: Boolean;
-
     trigger OnOpenPage()
     begin
         Rec.SetCurrentKey(Name);
-    end;
-
-    trigger OnAfterGetCurrRecord()
-    begin
-        SecretEditable := CurrPage.Editable();
     end;
 }
