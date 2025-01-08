@@ -3,14 +3,14 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 
-namespace System.FileSystem;
+namespace System.ExternalFileStorage;
 
 Using System.Environment;
 
 /// <summary>
 /// Displays an account that is being registered via the File Share connector.
 /// </summary>
-page 80401 "Local File Account Wizard"
+page 4821 "Local File Account Wizard"
 {
     Caption = 'Setup Local File Account';
     SourceTable = "Local File Account";
@@ -97,7 +97,7 @@ page 80401 "Local File Account Wizard"
 
                 trigger OnAction()
                 begin
-                    FileShareConnectorImpl.CreateAccount(Rec, FileShareAccount);
+                    FileShareConnectorImpl.CreateAccount(Rec, LocalFileAccount);
                     CurrPage.Close();
                 end;
             }
@@ -105,7 +105,7 @@ page 80401 "Local File Account Wizard"
     }
 
     var
-        FileShareAccount: Record "File Account";
+        LocalFileAccount: Record "File Account";
         MediaResources: Record "Media Resources";
         FileShareConnectorImpl: Codeunit "Local File Connector Impl.";
         IsNextEnabled: Boolean;
@@ -124,10 +124,10 @@ page 80401 "Local File Account Wizard"
 
     internal procedure GetAccount(var FileAccount: Record "File Account"): Boolean
     begin
-        if IsNullGuid(FileShareAccount."Account Id") then
+        if IsNullGuid(LocalFileAccount."Account Id") then
             exit(false);
 
-        FileAccount := FileShareAccount;
+        FileAccount := LocalFileAccount;
 
         exit(true);
     end;

@@ -3,13 +3,13 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 
-namespace System.FileSystem;
+namespace System.ExternalFileStorage;
 
-permissionset 80402 "Local File - Edit"
+permissionset 4822 "Local File - Edit"
 {
     Assignable = false;
     Access = Public;
-    Caption = 'File Share - Edit';
+    Caption = 'Local File - Edit';
 
     IncludedPermissionSets = "Local File - Read";
 

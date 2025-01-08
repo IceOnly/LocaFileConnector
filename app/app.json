@@ -1,10 +1,10 @@
 {
     "id":  "9587f70f-a76b-4bab-837e-85320e6cea82",
-    "name":  "File - Local File Connector (OnPrem)",
+    "name":  "External File Storage - Local File System Connector (OnPrem)",
     "publisher":  "Microsoft",
-    "brief":  "Enable all users to use a local server folder to save files from Business Central.",
-    "description":  "This app enables all users to store files in a local server folder in Business Central.",
-    "version":  "25.0.0.0",
+    "brief":  "Enables file and folder operations on the local server filesystem via the External File Storage Module with Business Central.",
+    "description":  "This app enables file and folder operations on the local server filesystem via the External File Storage Module with Business Central.",
+    "version":  "26.0.0.0",
     "privacyStatement":  "https://go.microsoft.com/fwlink/?linkid=724009",
     "EULA":  "https://go.microsoft.com/fwlink/?linkid=2009120",
     "help":  "https://go.microsoft.com/fwlink/?linkid=2134520",
@@ -16,21 +16,22 @@
         "name":  "System Application",
         "publisher":  "Microsoft",
         "version": "1.0.0.0"
-        }],
+    }],
     "screenshots":  [],
-                    "platform":  "24.0.0.0",
+    "application":  "26.0.0.0",
+    "platform":  "26.0.0.0",
     "idRanges":  [
                      {
-                         "from":  80400,
-                         "to":  802419
+                         "from":  4820,
+                         "to":  4829
                      }
                  ],
     "target":  "OnPrem",
-    "runtime": "13.0",
     "resourceExposurePolicy":  {
-                                   "allowDebugging":  false,
+                                   "allowDebugging":  true,
                                    "allowDownloadingSource":  true,
                                    "includeSourceInSymbolFile":  true
                                },
-    "contextSensitiveHelpUrl":  "https://go.microsoft.com/fwlink/?linkid=2134520"
+    "contextSensitiveHelpUrl":  "https://go.microsoft.com/fwlink/?linkid=2134520",
+    "resourceFolders": ["data"]
 }

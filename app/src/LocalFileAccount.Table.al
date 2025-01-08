@@ -3,15 +3,17 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 
-namespace System.FileSystem;
+namespace System.ExternalFileStorage;
+
+using System.Device;
 
 /// <summary>
 /// Holds the information for all file accounts that are registered via the File Share connector
 /// </summary>
-table 80400 "Local File Account"
+table 4820 "Local File Account"
 {
     Access = Internal;
-
+    DataClassification = CustomerContent;
     Caption = 'Local File Account';
 
     fields
@@ -21,15 +23,22 @@ table 80400 "Local File Account"
             DataClassification = SystemMetadata;
             Caption = 'Primary Key';
         }
-
         field(2; Name; Text[250])
         {
-            DataClassification = CustomerContent;
             Caption = 'Name of account';
         }
         field(3; "Base Path"; Text[2048])
         {
             Caption = 'Base Path';
+
+            trigger OnValidate()
+            begin
+                if "Base Path" = '' then
+                    exit;
+
+                if not "Base Path".EndsWith('\') then
+                    "Base Path" += '\';
+            end;
         }
     }
 

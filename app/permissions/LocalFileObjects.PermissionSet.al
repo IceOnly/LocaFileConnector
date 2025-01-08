@@ -3,13 +3,13 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 
-namespace System.FileSystem;
+namespace System.ExternalFileStorage;
 
-permissionset 80400 "Local File - Objects"
+permissionset 4820 "Local File - Objects"
 {
     Assignable = false;
     Access = Public;
-    Caption = 'File Share - Objects';
+    Caption = 'Local File - Objects';
 
     Permissions =
         table "Local File Account" = X,

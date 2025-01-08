@@ -3,12 +3,12 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 // ------------------------------------------------------------------------------------------------
 
-namespace System.FileSystem;
+namespace System.ExternalFileStorage;
 
 /// <summary>
 /// Displays an account that was registered via the File Share connector.
 /// </summary>
-page 80400 "Local File Account"
+page 4820 "Local File Account"
 {
     ApplicationArea = All;
     SourceTable = "Local File Account";
